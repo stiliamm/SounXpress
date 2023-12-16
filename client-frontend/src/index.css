@@ -1,0 +1,477 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --clr: #fff;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #487346;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg %3E%3Cpolygon fill='%234c8e43' points='100 57.1 64 93.1 71.5 100.6 100 72.1'/%3E%3Cpolygon fill='%236aac5f' points='100 57.1 100 72.1 128.6 100.6 136.1 93.1'/%3E%3Cpolygon fill='%234c8e43' points='100 163.2 100 178.2 170.7 107.5 170.8 92.4'/%3E%3Cpolygon fill='%236aac5f' points='100 163.2 29.2 92.5 29.2 107.5 100 178.2'/%3E%3Cpath fill='%2389CC7C' d='M100 21.8L29.2 92.5l70.7 70.7l70.7-70.7L100 21.8z M100 127.9L64.6 92.5L100 57.1l35.4 35.4L100 127.9z'/%3E%3Cpolygon fill='%23768c3a' points='0 157.1 0 172.1 28.6 200.6 36.1 193.1'/%3E%3Cpolygon fill='%2396ac58' points='70.7 200 70.8 192.4 63.2 200'/%3E%3Cpolygon fill='%23B6CC76' points='27.8 200 63.2 200 70.7 192.5 0 121.8 0 157.2 35.3 192.5'/%3E%3Cpolygon fill='%2396ac58' points='200 157.1 164 193.1 171.5 200.6 200 172.1'/%3E%3Cpolygon fill='%23768c3a' points='136.7 200 129.2 192.5 129.2 200'/%3E%3Cpolygon fill='%23B6CC76' points='172.1 200 164.6 192.5 200 157.1 200 157.2 200 121.8 200 121.8 129.2 192.5 136.7 200'/%3E%3Cpolygon fill='%23768c3a' points='129.2 0 129.2 7.5 200 78.2 200 63.2 136.7 0'/%3E%3Cpolygon fill='%23B6CC76' points='200 27.8 200 27.9 172.1 0 136.7 0 200 63.2 200 63.2'/%3E%3Cpolygon fill='%2396ac58' points='63.2 0 0 63.2 0 78.2 70.7 7.5 70.7 0'/%3E%3Cpolygon fill='%23B6CC76' points='0 63.2 63.2 0 27.8 0 0 27.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.App {
+  text-align: center;
+}
+
+.children {
+  margin-top: 100px;
+  padding: 20px;
+}
+
+/* NAVIGATION BAR STYLING */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: auto;
+  padding: 20px 100px;
+  background-color: transparent;
+  backdrop-filter: blur(20px);
+  display: flex;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+}
+
+.navbar .links-container {
+  width: 400px;
+  height: 70px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
+}
+
+.navbar .links-container ul {
+  display: flex;
+  width: 350px;
+}
+
+.navbar .links-container ul li {
+  position: relative;
+  list-style: none;
+  width: 70px;
+  height: 70px;
+  z-index: 1;
+}
+
+.navbar .links-container ul li a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  font-weight: 500;
+}
+
+.navbar .links-container ul li a .icon {
+  position: relative;
+  display: block;
+  line-height: 75px;
+  font-size: 1.5em;
+  text-align: center;
+  transition: 0.5s;
+  color: var(--clr);
+}
+
+.navbar .links-container ul li:hover a .icon {
+  transform: translateY(45px);
+}
+
+.navbar .links-container ul li a .text {
+  position: absolute;
+  color: var(--clr);
+  font-weight: 500;
+  font-size: 0.95em;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.navbar .links-container ul li:hover a .text {
+  opacity: 1;
+  transform: translateY(-10px);
+}
+
+.logo {
+  font-size: 2em;
+  color: #fff;
+  user-select: none;
+  margin-right: 40px;
+}
+
+.navbar .btnLogin {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  margin-left: 40px;
+  transition: 0.5s;
+  backdrop-filter: blur(50px);
+}
+
+.navbar .btnLogin:hover {
+  background: #fff;
+  color: #162938;
+}
+
+.navbar .login-overlay {
+  transition: 0.5s;
+}
+
+/* LOGIN PAGE STYLES */
+
+.wrapper {
+  position: relative;
+  width: 400px;
+  height: 440px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.wrapper .form-box {
+  width: 100%;
+  padding: 40px;
+}
+
+.form-box h2 {
+  font-size: 2em;
+  color: var(--clr);
+  text-align: center;
+}
+
+.wrapper .form-box .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  margin: 30px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: var(--clr);
+  font-weight: 500;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-box .icon {
+  color: var(--clr);
+  position: absolute;
+  right: 8px;
+  font-size: 1.2em;
+  line-height: 57px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -5px;
+}
+
+.form-box .remember-forgot {
+  font-size: 0.9em;
+  color: var(--clr);
+  font-weight: 500;
+  margin: -15px 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember-forgot label input {
+  accent-color: #487346;
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  color: var(--clr);
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.form-box .btn {
+  width: 100%;
+  height: 45px;
+  background: #1c5719;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: var(--clr);
+}
+
+.form-box .login-register {
+  color: #fff;
+  margin: 25px 0 10px;
+}
+
+.login-register a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.login-register a:hover {
+  text-decoration: underline;
+}
+
+/* REGISTER FORM STYLES */
+
+.register-container {
+  position: relative;
+  width: 400px;
+  height: 520px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.register-container .form-box-register {
+  width: 100%;
+  padding: 40px;
+  position: relative;
+}
+
+.register-container .form-box-register h2 {
+  font-size: 2em;
+  color: var(--clr);
+  text-align: center;
+}
+
+.register-container .form-box-register .input-box-register {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  margin: 20px 0;
+}
+
+.input-box-register label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: var(--clr);
+  font-weight: 500;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-box-register .icon {
+  color: var(--clr);
+  position: absolute;
+  right: 8px;
+  font-size: 1.2em;
+  line-height: 57px;
+}
+
+.input-box-register input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.input-box-register input:focus ~ label,
+.input-box-register input:valid ~ label {
+  top: -5px;
+}
+
+.form-box-register .btn {
+  width: 100%;
+  height: 45px;
+  background: #1c5719;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: var(--clr);
+}
+
+/* HOMEPAGE AUDIO CONTENT STYLES */
+
+.gallery {
+  position: relative;
+  padding: 20px 100px;
+  background-color: transparent;
+  backdrop-filter: blur(20px);
+  display: flex;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  font-size: 1em;
+  color: #fff;
+  user-select: none;
+}
+
+.gallery .audio-container {
+  display: "flex";
+  flex-wrap: wrap;
+}
+
+.audio-container .file {
+  display: "flex";
+  background: "white";
+  border: "2px solid #ccc";
+  padding: "15px";
+  margin: "15px";
+  width: "100%";
+  border-radius: "10px";
+  box-shadow: "0 4px 8px rgba(0, 0, 0, 0.1)";
+  transition: "transform 0.3s ease-in-out";
+}
+
+/* PROFILE PAGE STYLES */
+
+.profile-container {
+  position: relative;
+  width: 500px;
+  height: 520px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.content-avatar {
+  padding: 20px;
+  width: 10rem;
+  height: 10rem;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #8f6ed5
+    url("https://image.freepik.com/free-photo/friendly-brunette-looking-camera_23-2147774849.jpg")
+    center center no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  border: 6px solid #487346;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.metadata {
+  position: absolute;
+  padding: 40px;
+  width: 250px;
+  height: 5rem;
+  top: 40px;
+  right: 40px;
+  border-radius: 20px;
+  border: 1px solid white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  color: var(--clr);
+}
+
+.fullname {
+  display: flex;
+  flex-direction: row;
+  font-size: large;
+}
+.firstName {
+  margin-right: 10px;
+}
+
+.user-data {
+  width: 80%;
+  height: 5rem;
+  border: 1px solid white;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  color: white;
+}
+
+.username {
+  margin-top: 10px;
+  font-size: small;
+}
