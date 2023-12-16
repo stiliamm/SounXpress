@@ -9,23 +9,13 @@ users_router = APIRouter(prefix='/users')
 
 
 @users_router.get('/info', tags=["Users"])
-def get_user_info(x_token: str = Header(default=None)):
-    user = authenticate(x_token) if x_token else None
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Missing authentication token!')
-    else:
-        return info(user)
+def get_user_info(x_token: str = Header()):
+    return info(authenticate(x_token))
 
 
 @users_router.get('/image', tags=["Users"])
-def get_user_avatar(x_token: str = Header(default=None)):
-    user = authenticate(x_token) if x_token else None
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Missing authentication token!')
+def get_user_avatar(x_token: str = Header()):
+    user = authenticate(x_token)
     base_path = Path(f"./static/avatars/{user.username}")
     extensions = ('.png', '.jpg', '.jpeg')
     file_path = next(
@@ -39,10 +29,6 @@ def get_user_avatar(x_token: str = Header(default=None)):
 
 
 @users_router.post('/upload_image', tags=["Users"])
-def upload_profile_image(my_image: UploadFile = File(...), x_token: str = Header(default=None)):
-    user = authenticate(x_token) if x_token else None
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Missing authentication token!')
+def upload_profile_image(my_image: UploadFile = File(...), x_token: str = Header()):
+    user = authenticate(x_token)
     return create_upload_avatar(my_image, user)
