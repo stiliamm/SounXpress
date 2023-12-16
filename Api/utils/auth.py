@@ -1,16 +1,14 @@
 import jwt
 import os
-from fastapi import Depends, HTTPException, status
-from typing import Annotated
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from common.models.user import User
 from datetime import datetime, timedelta
 from services.login_service import get_user
 SECRET_KEY = os.getenv('JWT_SECRET')
-ALGORITHM = os.getenv('HASH_ALGORITHM') 
+ALGORITHM = os.getenv('HASH_ALGORITHM')
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="x-token")
-
 
 
 def create_access_token(user: User):
@@ -19,7 +17,6 @@ def create_access_token(user: User):
         "username": user.username,
         "first_name": user.first_name,
         "last_name": user.last_name,
-        "avatar": user.photo,
         "issued": str(datetime.now())
     }
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -39,7 +36,8 @@ def authenticate(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload["username"]
-        expiration = datetime.strptime(payload["issued"], '%Y-%m-%d %H:%M:%S.%f')
+        expiration = datetime.strptime(
+            payload["issued"], '%Y-%m-%d %H:%M:%S.%f')
         if username is None:
             raise credentials_exception
         if expiration < datetime.now() - timedelta(minutes=30):

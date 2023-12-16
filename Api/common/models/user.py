@@ -6,14 +6,12 @@ class User(BaseModel):
     username: str
     first_name: str
     last_name: str
-    photo: str | None = None
 
     @classmethod
-    def from_query_result(cls, id, username, first_name, last_name, photo):
+    def from_query_result(cls, id, username, first_name, last_name):
         return cls(
             id=id,
             username=username,
             first_name=first_name,
-            last_name=last_name,
-            photo=photo
+            last_name=last_name
         )

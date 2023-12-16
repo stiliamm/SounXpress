@@ -4,17 +4,17 @@ from hashlib import sha256
 from hmac import compare_digest
 
 
-
 def try_login(username: str, password: str):
     u_password, user = get_user(username)
-    if not user: return None
+    if not user:
+        return None
     password_check = _hash_password(password)
     return user if compare_digest(u_password, password_check) else None
 
 
 def get_user(username: str):
     data = read_query(
-        '''SELECT id, username, first_name, last_name, avatar, password
+        '''SELECT id, username, first_name, last_name, password
            FROM users WHERE username = %s''',
         (username,)
     )
@@ -25,7 +25,7 @@ def get_user(username: str):
             (User.from_query_result(*row[:-1]) for row in data), None)
     else:
         return None, None
-    
+
 
 def _hash_password(text: str):
     return sha256(text.encode('utf-8')).hexdigest()
