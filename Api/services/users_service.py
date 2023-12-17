@@ -19,7 +19,7 @@ def info(user: User):
 def create_upload_avatar(myimage: UploadFile, user: User):
     _IMAGE_DIR = "./static/avatars/"
 
-    filename = myimage.filenames
+    filename = myimage.filename
     extention = filename.split('.')[-1].lower()
 
     if extention not in ('png', 'jpg', 'jpeg'):

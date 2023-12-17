@@ -42,7 +42,7 @@ def authenticate(token: str):
             payload["issued"], '%Y-%m-%d %H:%M:%S.%f')
         if username is None:
             raise credentials_exception
-        if expiration < datetime.now() - timedelta(seconds=30):
+        if expiration < datetime.now() - timedelta(minutes=40):
             raise expired_exception
     except Exception as e:
         raise e
