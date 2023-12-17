@@ -6,14 +6,16 @@ from pathlib import Path
 
 
 def info(user: User):
-    data = read_query(
+    records = read_query(
         '''SELECT file_name FROM recordings
            WHERE user_id = %s''', (user.id,)
     )
 
     return {
         "username": user.username,
-        "recordings": data
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "recordings": records
     }
 
 
@@ -35,7 +37,7 @@ def create_upload_avatar(myimage: UploadFile, user: User):
             f.write(file_content)
 
         img = Image.open(generated_name)
-        img = img.resize(size=(160, 160))
+        img = img.resize(size=(154, 154))
         img.save(generated_name)
 
         return 'Sucessfully uploaded image'

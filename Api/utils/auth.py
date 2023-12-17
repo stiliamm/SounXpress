@@ -1,7 +1,6 @@
 import jwt
 import os
 from fastapi import HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 from common.models.user import User
 from datetime import datetime, timedelta
 from services.login_service import get_user
@@ -9,8 +8,6 @@ from dotenv import load_dotenv
 load_dotenv()
 SECRET_KEY = os.getenv('JWT_SECRET')
 ALGORITHM = os.getenv('HASH_ALGORITHM')
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="x-token")
 
 
 def create_access_token(user: User):

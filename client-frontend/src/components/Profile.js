@@ -1,76 +1,82 @@
-import Cookies from "universal-cookie";
 import App from "../App";
-import { useState } from "react";
-import GetToken from "../services/getToken";
+import { useEffect, useState } from "react";
+import getAvatar from "../services/getAvatar";
+import getUserInfo from "../services/getUserInfo";
+import Cookies from "universal-cookie";
 
 const Profile = () => {
-  let authToken = GetToken();
-  const [avatarData, setAvatarData] = useState(null);
+  const cookies = new Cookies();
+  const getAuthToken = () => {
+    return cookies.get("authToken");
+  };
+
+  const [authToken, setAuthToken] = useState(getAuthToken());
+  const [avatarData, setAvatarData] = useState({});
   const [userInfo, setUserInfo] = useState(null);
 
-  const getAvatar = async () => {
-    if (!authToken) {
-      return;
-    }
+  console.log("Token", authToken);
 
-    const response = await fetch("http://localhost:8000/users/image", {
-      method: "GET",
-      headers: {
-        "x-token": authToken,
-      },
-    });
+  useEffect(() => {
+    const fetchAvatarAndUserInfo = async () => {
+      try {
+        const avatar = await getAvatar(authToken);
+        const info = await getUserInfo(authToken);
 
-    if (!response.ok) {
-      throw new Error("Network was not ok!");
-    }
+        if (!avatar) {
+          setAvatarData({});
+        } else {
+          setAvatarData(URL.createObjectURL(avatar));
+        }
 
-    const photo = await response.blob();
-    setAvatarData(photo);
-  };
+        setUserInfo(info);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
 
-  const getUserInfo = async () => {
-    if (!authToken) {
-      return;
-    }
+    fetchAvatarAndUserInfo();
 
-    const response = await fetch("http://localhost:8000/users/info", {
-      method: "GET",
-      headers: {
-        "x-token": authToken,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Network was not ok!");
-    }
-
-    const data = await response.json();
-    setUserInfo(data);
-  };
+    return () => {
+      setAuthToken(null);
+      setAvatarData({});
+      setUserInfo(null);
+    };
+  }, [authToken]);
 
   return (
     <App>
       <div className="profile-container">
         <div className="content-avatar">
-          <img href={getAvatar} className="avatar"></img>
+          {avatarData && (
+            <img
+              src={avatarData}
+              alt="Avatar"
+              className="avatar"
+              key={authToken}
+            />
+          )}
         </div>
-        <div className="metadata">
-          <div className="fullname">
-            <span className="firstName">John</span>
-            <span className="lastName">Ivanov</span>
+        {userInfo && (
+          <div>
+            <div className="metadata">
+              <div className="fullname">
+                <span className="firstName">{userInfo.first_name}</span>
+                <span className="lastName">{userInfo.last_name}</span>
+              </div>
+            </div>
+            <div className="user-data">
+              <div className="username">
+                <span>Username: {userInfo.username}</span>
+                <span>Top Record:</span>
+                <span>Recordings: {userInfo.recordings}</span>
+                <span>
+                  Contact:
+                  <a href="/messages">send message</a>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="user-data">
-          <div className="username">
-            <span>Username:</span>
-            <span>Top Record:</span>
-            <span>Recordings:</span>
-            <span>
-              Contact:
-              <a href="/messages">send message</a>
-            </span>
-          </div>
-        </div>
+        )}
       </div>
     </App>
   );
