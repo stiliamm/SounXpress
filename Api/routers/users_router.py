@@ -2,7 +2,6 @@ from fastapi import APIRouter, File, Header, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from utils.auth import authenticate
 from services.users_service import info, create_upload_avatar, get_avatar
-from pathlib import Path
 
 
 users_router = APIRouter(prefix='/users')
