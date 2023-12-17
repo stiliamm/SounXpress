@@ -2,6 +2,7 @@ from common.database.db_connect import read_query
 from common.models.user import User
 from fastapi import UploadFile, HTTPException, status
 from PIL import Image
+from pathlib import Path
 
 
 def info(user: User):
@@ -42,3 +43,12 @@ def create_upload_avatar(myimage: UploadFile, user: User):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Unexpected error occured.")
+
+
+def get_avatar(user: User):
+    base_path = Path(f"./static/avatars/{user.username}")
+    extensions = ('.png', '.jpg', '.jpeg')
+    file_path = next(
+        (base_path.with_suffix(ext) for ext in extensions if (
+            base_path.with_suffix(ext)).is_file()), None)
+    return file_path

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, Header, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from utils.auth import authenticate
-from services.users_service import info, create_upload_avatar
+from services.users_service import info, create_upload_avatar, get_avatar
 from pathlib import Path
 
 
@@ -16,11 +16,7 @@ def get_user_info(x_token: str = Header()):
 @users_router.get('/image', tags=["Users"])
 def get_user_avatar(x_token: str = Header()):
     user = authenticate(x_token)
-    base_path = Path(f"./static/avatars/{user.username}")
-    extensions = ('.png', '.jpg', '.jpeg')
-    file_path = next(
-        (base_path.with_suffix(ext) for ext in extensions if (
-            base_path.with_suffix(ext)).is_file()), None)
+    file_path = get_avatar(user)
     if not file_path:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
