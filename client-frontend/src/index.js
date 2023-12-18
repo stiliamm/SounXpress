@@ -14,6 +14,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import PostedAudio from "./components/PostedAudio";
+import Messages from "./components/Messages";
 
 const cookies = new Cookies();
 const getAuthToken = () => {
@@ -36,6 +37,11 @@ const router = createBrowserRouter(
       <Route path="/register" element={<Register />}></Route>
       <Route path="/library" element={<PostedAudio />}></Route>
       <Route path="/profile" element={<Profile />} loader={tokenLoader}></Route>
+      <Route
+        path="/messages"
+        element={<Messages />}
+        loader={tokenLoader}
+      ></Route>
     </>
   )
 );

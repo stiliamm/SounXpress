@@ -10,7 +10,7 @@ const Profile = () => {
     return cookies.get("authToken");
   };
 
-  const [authToken, setAuthToken] = useState(getAuthToken());
+  let authToken = getAuthToken();
   const [avatarData, setAvatarData] = useState({});
   const [userInfo, setUserInfo] = useState(null);
 
@@ -35,12 +35,6 @@ const Profile = () => {
     };
 
     fetchAvatarAndUserInfo();
-
-    return () => {
-      setAuthToken(null);
-      setAvatarData({});
-      setUserInfo(null);
-    };
   }, [authToken]);
 
   return (
@@ -65,15 +59,13 @@ const Profile = () => {
               </div>
             </div>
             <div className="user-data">
-              <div className="username">
-                <span>Username: {userInfo.username}</span>
-                <span>Top Record:</span>
-                <span>Recordings: {userInfo.recordings}</span>
-                <span>
-                  Contact:
-                  <a href="/messages">send message</a>
-                </span>
-              </div>
+              <span>Username {userInfo.username}</span>
+              <span>Top Record:</span>
+              <span>Recordings: {userInfo.recordings}</span>
+              <span>
+                Contact:
+                <a href="/messages">send message</a>
+              </span>
             </div>
           </div>
         )}

@@ -36,6 +36,7 @@ const Login = () => {
       }
 
       setAuthToken(token);
+      console.log(cookies.get("authToken"));
     } catch (error) {
       console.error("Error during login:", error);
     }
