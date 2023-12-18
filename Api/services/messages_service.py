@@ -2,6 +2,9 @@ from common.database.db_connect import read_query, insert_query
 from common.models.user import User
 from common.models.message import Message
 
+# TODO: SEE HOW TO SEND FILES OVER MESSAGES (REFACTOR SEND_MESSAGE)
+# TODO: IMPLEMENT GET CONVOS
+
 
 def send_message(sender: User, receiver: User, message: Message):
     insert_query(

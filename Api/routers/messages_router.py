@@ -5,6 +5,8 @@ from common.models.message import Message
 
 messages_router = APIRouter(prefix='/messages')
 
+# TODO: IMPLEMENT ENDPOINT FOR CONVERSATION RETIRIEVAL
+
 
 @messages_router.post('/{contact_username}')
 def send(contact_username: str, message: Message, x_token: str = Header()):
