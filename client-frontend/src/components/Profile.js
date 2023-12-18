@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import getAvatar from "../services/getAvatar";
 import getUserInfo from "../services/getUserInfo";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const cookies = new Cookies();
   const getAuthToken = () => {
     return cookies.get("authToken");
@@ -22,6 +24,14 @@ const Profile = () => {
         const avatar = await getAvatar(authToken);
         const info = await getUserInfo(authToken);
 
+        if (avatar === 401) {
+          navigate("/login");
+        }
+
+        if (info === 401) {
+          navigate("/login");
+        }
+
         if (!avatar) {
           setAvatarData({});
         } else {
@@ -35,7 +45,7 @@ const Profile = () => {
     };
 
     fetchAvatarAndUserInfo();
-  }, [authToken]);
+  }, [authToken, navigate]);
 
   return (
     <App>

@@ -12,6 +12,10 @@ const getAvatar = async (authToken) => {
       },
     });
 
+    if (response.status === 401) {
+      return 401;
+    }
+
     if (!response.ok) {
       if (response.status === 404) {
         return null;

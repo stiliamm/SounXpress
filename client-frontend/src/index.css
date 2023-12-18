@@ -573,6 +573,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  flex-direction: column-reverse;
 }
 
 .input-area .send-button {
@@ -599,34 +600,65 @@ body {
   color: #162938;
 }
 
-.text-box .received-msg {
-  position: absolute;
-  left: 3%;
-  height: 90%;
-  width: 200px;
-  display: flex;
-  justify-content: center;
-}
-
-.received-msg text {
-  width: 100%;
+.received-msg {
   height: 30px;
+  align-self: flex-start;
+  background-color: #ccc;
+  margin-bottom: 10px;
   border: 2px solid #fff;
   border-radius: 20px;
-}
-
-.text-box .sent-msg {
-  position: absolute;
-  right: 3%;
-  height: 90%;
-  width: 200px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-left: 10px;
 }
 
-.sent-msg text {
-  width: 100%;
+.sent-msg {
   height: 30px;
+  align-self: flex-end;
+  background-color: #ccc;
+  margin-bottom: 10px;
   border: 2px solid #fff;
   border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.contacts-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 40px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  overflow: hidden;
+  padding: 30px;
+}
+
+.contacts-container .contact {
+  height: 60px;
+  width: 100%;
+  align-self: flex-start;
+  background-color: #ccc;
+  margin-bottom: 10px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  font-size: large;
+  font-weight: 500;
 }

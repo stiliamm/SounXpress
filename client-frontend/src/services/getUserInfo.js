@@ -10,6 +10,10 @@ const getUserInfo = async (authToken) => {
     },
   });
 
+  if (response.status === 401) {
+    return 401;
+  }
+
   if (!response.ok) {
     throw new Error("Network was not ok!");
   }
