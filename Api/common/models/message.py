@@ -3,14 +3,18 @@ from datetime import datetime
 
 
 class Message(BaseModel):
+    id: int
     message: str
     timestamp: datetime
+    from_user: str
 
     @classmethod
-    def from_query_result(cls, message, timestamp):
+    def from_query_result(cls, id, message, timestamp, from_user):
         return cls(
+            id=id,
             message=message,
-            timestamp=timestamp
+            timestamp=timestamp,
+            from_user=from_user
         )
 
 

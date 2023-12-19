@@ -29,10 +29,11 @@ def get_contact(username: str):
 
 def conversation(user: User, contact: User):
     messages = read_query(
-        '''SELECT message, timestamp FROM messages
-           WHERE from_user = %s AND to_user = %s
+        '''SELECT m.id, m.message, m.timestamp, u.username FROM messages m
+           LEFT JOIN users u ON m.from_user = u.id
+           WHERE (from_user = %s AND to_user = %s) OR (from_user = %s AND to_user = %s)
            ORDER BY timestamp''',
-        (user.id, contact.id)
+        (user.id, contact.id, contact.id, user.id)
     )
     return (Message.from_query_result(*msg) for msg in messages)
 
