@@ -1,7 +1,9 @@
 import App from "../App";
 import Conversation from "./Conversation";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
+import SendMessage from "../services/sendMessage";
+import { useState } from "react";
 
 const Messages = () => {
   const cookies = new Cookies();
@@ -10,9 +12,25 @@ const Messages = () => {
   };
 
   let authToken = getAuthToken();
+  const navigate = useNavigate();
   const { username } = useParams();
+  const [messageData, setMessageData] = useState("");
+  const [refreshConvoData, setRefreshConvoData] = useState(false);
 
-  // ADD LOGIC FOR SENDING A MESSAGE
+  const handleSendMessage = async () => {
+    try {
+      const sendOperation = await SendMessage(authToken, username, messageData);
+
+      if (sendOperation === 401) {
+        navigate("/login");
+      }
+
+      setMessageData("");
+      setRefreshConvoData((prev) => !prev);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <App>
@@ -20,10 +38,21 @@ const Messages = () => {
         <header className="msg-header">
           <span className="user">{username}</span>
         </header>
-        <Conversation authToken={authToken} receiverUsername={username} />
+        <Conversation
+          authToken={authToken}
+          receiverUsername={username}
+          refreshConvoData={refreshConvoData}
+        />
         <div className="input-area">
-          <textarea></textarea>
-          <button className="send-button">
+          <textarea
+            value={messageData}
+            onChange={(e) => setMessageData(e.target.value)}
+          ></textarea>
+          <button
+            onClick={handleSendMessage}
+            className="send-button"
+            disabled={!messageData.trim()}
+          >
             <ion-icon name="send-outline"></ion-icon>
           </button>
         </div>

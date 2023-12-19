@@ -562,7 +562,7 @@ body {
 .text-box {
   position: absolute;
   width: 450px;
-  height: 320px;
+  max-height: 320px;
   top: 15%;
   background: transparent;
   border: 2px solid #fff;
@@ -571,9 +571,23 @@ body {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: right;
   overflow: hidden;
+  overflow-y: auto;
   flex-direction: column-reverse;
+  padding-bottom: 40px;
+  padding-right: 10px;
+}
+
+.text-box p {
+  position: relative;
+  text-align: right;
+  margin-right: 15px;
+  margin-bottom: 3px;
+  margin-top: 1px;
+  color: white;
+  font-size: small;
+  font-weight: 500;
 }
 
 .input-area .send-button {

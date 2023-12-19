@@ -15,12 +15,16 @@ const getConversation = async (authToken, receiverUsername) => {
       }
     );
 
+    if (response.status === 401) {
+      return 401;
+    }
+
     if (!response.ok) {
       throw new Error("Network was not ok!");
     }
 
     const data = await response.json();
-    console.log("Server conversation data", data);
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
