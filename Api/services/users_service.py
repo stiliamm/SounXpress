@@ -3,6 +3,7 @@ from common.models.user import User
 from fastapi import UploadFile, HTTPException, status
 from PIL import Image
 from pathlib import Path
+from common.recorder import Recorder
 
 
 def info(user: User):
@@ -54,3 +55,15 @@ def get_avatar(user: User):
         (base_path.with_suffix(ext) for ext in extensions if (
             base_path.with_suffix(ext)).is_file()), None)
     return file_path
+
+
+def upload_audio_file(user: User, recorder: Recorder):
+    try:
+        recorder.save_recording(user.username, file_name='output.wav')
+        return True
+    except Exception:
+        return False
+
+
+def get_audio_files(user: User):
+    pass

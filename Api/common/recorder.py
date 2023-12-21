@@ -1,9 +1,10 @@
 import pyaudio
 import threading
 from common.driver import AudioDriver
+import wave
+import os
 
 
-    
 class Recorder(AudioDriver):
     """
     Record audio in MONO | format 16bit\n
@@ -24,25 +25,21 @@ class Recorder(AudioDriver):
             input=True,
             frames_per_buffer=self.chunk
         )
-        self.frames = []
-        self.recording = False
+        self.frames: list = []
+        self.recording: bool = False
         self._recording_thread = None
 
-    
     def _recording_loop(self):
         while self.recording:
-            data = self.stream.read(self.chunk)    
+            data = self.stream.read(self.chunk)
             self.frames.append(data)
-        
-    
+
     def start_recording(self):
         self.frames = []
         self.recording = True
         self._recording_thread = threading.Thread(target=self._recording_loop)
         self._recording_thread.start()
-        print('Recording...')
 
-    
     def stop_recording(self):
         if self._recording_thread and self._recording_thread.is_alive():
             self.recording = False
@@ -50,14 +47,11 @@ class Recorder(AudioDriver):
             self.stream.close()
             self.port.terminate()
             self._recording_thread.join()
-            print('Stopping...')
 
-    
     def play_recording(self):
         if not self.frames:
-            print('No recorded audio')
             return
-        
+
         playback_port = pyaudio.PyAudio()
         try:
             playback = playback_port.open(
@@ -69,9 +63,18 @@ class Recorder(AudioDriver):
 
             for data in self.frames:
                 playback.write(data)
-            
-            print('Playback complete')
         finally:
             playback.stop_stream()
             playback.close()
             playback_port.terminate()
+
+    def save_recording(self, username: str, file_name: str):
+        if not self.frames:
+            return
+
+        save_path = os.path.join('./static/recordings/', username, file_name)
+        with wave.open(save_path, 'wb') as wf:
+            wf.setnchannels(self.channels)
+            wf.setsampwidth(self.port.get_sample_size(self.format))
+            wf.setframerate(self.rate)
+            wf.writeframes(b''.join(self.frames))

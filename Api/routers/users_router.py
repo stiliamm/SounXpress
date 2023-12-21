@@ -1,10 +1,12 @@
 from fastapi import APIRouter, File, Header, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from utils.auth import authenticate
-from services.users_service import info, create_upload_avatar, get_avatar
+from services.users_service import info, create_upload_avatar, get_avatar, upload_audio_file
+from common.recorder import Recorder
 
 
 users_router = APIRouter(prefix='/users')
+recorder = Recorder()
 
 
 @users_router.get('/info', tags=["Users"])
@@ -27,3 +29,44 @@ def get_user_avatar(x_token: str = Header()):
 def upload_profile_image(my_image: UploadFile = File(...), x_token: str = Header()):
     user = authenticate(x_token)
     return create_upload_avatar(my_image, user)
+
+
+@users_router.post('/recordings/start')
+def start_record(x_token: str = Header()):
+    authenticate(x_token)
+    recorder.start_recording()
+    return {'message': 'Recording...'}
+
+
+@users_router.post('/recordings/stop')
+def stop_record(x_token: str = Header()):
+    authenticate(x_token)
+    recorder.stop_recording()
+    return {'message': 'Stopping record...'}
+
+
+@users_router.post('/recordings/upload')
+def upload_audio(x_token: str = Header()):
+    user = authenticate(x_token)
+    saved = upload_audio_file(user, recorder)
+    if saved == True:
+        return {'message': 'File uploaded to library'}
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_417_EXPECTATION_FAILED)
+
+
+@users_router.post('/recordings/play')
+def play_audio(x_token: str = Header()):
+    authenticate(x_token)
+    try:
+        recorder.play_recording()
+        return {'message': 'Playing...'}
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@users_router.get('/recordings')
+def get_records(x_token: str = Header()):
+    user = authenticate(x_token)
