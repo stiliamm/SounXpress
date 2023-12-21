@@ -16,6 +16,7 @@ import Profile from "./components/Profile";
 import PostedAudio from "./components/PostedAudio";
 import Messages from "./components/Messages";
 import Contacts from "./components/ConvoList";
+import Recorder from "./components/Recorder";
 
 const cookies = new Cookies();
 const getAuthToken = () => {
@@ -46,6 +47,11 @@ const router = createBrowserRouter(
       <Route
         path="/messages"
         element={<Contacts />}
+        loader={tokenLoader}
+      ></Route>
+      <Route
+        path="/recorder"
+        element={<Recorder />}
         loader={tokenLoader}
       ></Route>
     </>
