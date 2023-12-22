@@ -1,4 +1,4 @@
-from fastapi import APIRouter, File, Header, HTTPException, UploadFile, status
+from fastapi import APIRouter, File, Header, Body, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
 from utils.auth import authenticate
 from services.users_service import info, create_upload_avatar, get_avatar, upload_audio_file
@@ -46,9 +46,9 @@ def stop_record(x_token: str = Header()):
 
 
 @users_router.post('/recordings/upload')
-def upload_audio(x_token: str = Header()):
+def upload_audio(file_name: str = Body(), x_token: str = Header()):
     user = authenticate(x_token)
-    saved = upload_audio_file(user, recorder)
+    saved = upload_audio_file(user, file_name, recorder)
     if saved == True:
         return {'message': 'File uploaded to library'}
     else:
@@ -62,9 +62,8 @@ def play_audio(x_token: str = Header()):
     try:
         recorder.play_recording()
         return {'message': 'Playing...'}
-    except Exception:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return e.__str__()
 
 
 @users_router.get('/recordings')

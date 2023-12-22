@@ -5,6 +5,7 @@ import RecordAudio from "../services/recordAudio";
 import StopRecord from "../services/stopRecording";
 import PlayAudio from "../services/playAudio";
 import UploadRecord from "../services/uploadAudio";
+import { useState } from "react";
 
 const Recorder = () => {
   const cookies = new Cookies();
@@ -14,6 +15,8 @@ const Recorder = () => {
 
   let authToken = getAuthToken();
   const navigate = useNavigate();
+  const [uploadData, setUploadData] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleRecording = async () => {
     try {
@@ -51,19 +54,41 @@ const Recorder = () => {
 
   const handleUpload = async () => {
     try {
-      const upload = await UploadRecord(authToken);
+      if (!fileName) {
+        alert("Please enter a filename");
+        return;
+      }
+
+      const upload = await UploadRecord(authToken, fileName);
       if (upload === 401) {
         navigate("/login");
       }
+
+      setUploadData(upload);
     } catch (error) {
       throw error;
     }
   };
 
+  const handleFileNameChange = (e) => {
+    setFileName(e.target.value);
+  };
+
   return (
     <App>
       <div className="recorder-container">
-        <div className="audio-spectrum">AUDIO SPECTRUM</div>
+        <div className="audio-spectrum">
+          <div className="input-container">
+            <p>File Name</p>
+            <input
+              type="text"
+              className="record-name"
+              value={fileName}
+              onChange={handleFileNameChange}
+            ></input>
+          </div>
+          <div className="upload-status">{uploadData}</div>
+        </div>
         <div className="buttons-container">
           <div className="record">
             <button onClick={handleRecording}>

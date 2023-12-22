@@ -31,8 +31,11 @@ class Recorder(AudioDriver):
 
     def _recording_loop(self):
         while self.recording:
-            data = self.stream.read(self.chunk)
-            self.frames.append(data)
+            try:
+                data = self.stream.read(self.chunk)
+                self.frames.append(data)
+            except IOError as e:
+                print(f"Error recording: {e}")
 
     def start_recording(self):
         self.frames = []
@@ -43,9 +46,6 @@ class Recorder(AudioDriver):
     def stop_recording(self):
         if self._recording_thread and self._recording_thread.is_alive():
             self.recording = False
-            self.stream.start_stream()
-            self.stream.close()
-            self.port.terminate()
             self._recording_thread.join()
 
     def play_recording(self):
@@ -72,9 +72,11 @@ class Recorder(AudioDriver):
         if not self.frames:
             return
 
-        save_path = os.path.join('./static/recordings/', username, file_name)
-        with wave.open(save_path, 'wb') as wf:
+        _SAVE_PATH = f'./static/recordings/{username}_{file_name}.wav'
+        with wave.open(_SAVE_PATH, 'wb') as wf:
             wf.setnchannels(self.channels)
             wf.setsampwidth(self.port.get_sample_size(self.format))
             wf.setframerate(self.rate)
             wf.writeframes(b''.join(self.frames))
+
+        self.frames = []

@@ -758,7 +758,48 @@ body {
   backdrop-filter: blur(40px);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.audio-spectrum .input-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.input-container input {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  height: 30px;
+  width: 95%;
+  border-radius: 50px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  background: transparent;
+  border: 1px solid #fff;
+  overflow: hidden;
+  padding: 6px;
+  color: white;
+  margin-top: 8px;
+}
+
+.input-container p {
+  color: white;
+  font-size: medium;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.upload-status {
+  position: absolute;
+  bottom: 60px;
+  color: white;
 }

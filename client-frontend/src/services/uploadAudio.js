@@ -1,4 +1,4 @@
-const UploadRecord = async (authToken) => {
+const UploadRecord = async (authToken, fileName) => {
   try {
     const response = await fetch(
       "http://localhost:8000/users/recordings/upload",
@@ -7,6 +7,7 @@ const UploadRecord = async (authToken) => {
         headers: {
           "x-token": authToken,
         },
+        body: fileName,
       }
     );
 
@@ -19,7 +20,7 @@ const UploadRecord = async (authToken) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.message;
   } catch (error) {
     console.log("Network was bad", error);
   }

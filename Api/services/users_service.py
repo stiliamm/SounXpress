@@ -57,12 +57,12 @@ def get_avatar(user: User):
     return file_path
 
 
-def upload_audio_file(user: User, recorder: Recorder):
+def upload_audio_file(user: User, file_name: str, recorder: Recorder):
     try:
-        recorder.save_recording(user.username, file_name='output.wav')
+        recorder.save_recording(user.username, file_name)
         return True
-    except Exception:
-        return False
+    except Exception as e:
+        raise e
 
 
 def get_audio_files(user: User):
