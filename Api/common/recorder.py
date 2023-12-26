@@ -72,7 +72,7 @@ class Recorder(AudioDriver):
         if not self.frames:
             return
 
-        _SAVE_PATH = f'./static/recordings/{username}_{file_name}.wav'
+        _SAVE_PATH = f'./static/recordings/{username}@{file_name}.wav'
         with wave.open(_SAVE_PATH, 'wb') as wf:
             wf.setnchannels(self.channels)
             wf.setsampwidth(self.port.get_sample_size(self.format))

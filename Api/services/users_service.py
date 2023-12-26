@@ -1,9 +1,12 @@
 from common.database.db_connect import read_query
 from common.models.user import User
+from common.models.audio_file import AudioFile
 from fastapi import UploadFile, HTTPException, status
+from fastapi.responses import StreamingResponse
 from PIL import Image
 from pathlib import Path
 from common.recorder import Recorder
+import os
 
 
 def info(user: User):
@@ -65,5 +68,30 @@ def upload_audio_file(user: User, file_name: str, recorder: Recorder):
         raise e
 
 
-def get_audio_files(user: User):
-    pass
+def get_audio_files():
+    recordings = []
+    _FILES_DIR = './static/recordings/'
+    try:
+        files = os.listdir(_FILES_DIR)
+        for i, file_name in enumerate(files):
+            file = os.path.join(_FILES_DIR, file_name)
+
+            if os.path.isfile(file):
+                user, f_name = file_name.split('@')
+                recordings.append((i, f_name, user))
+
+        return (AudioFile.from_query_result(*row) for row in recordings)
+    except Exception as e:
+        raise e
+
+
+def play_from_dir(username: str, file_name: str):
+    _FILE = Path(f"./static/recordings/{username}@{file_name}.wav")
+
+    if _FILE.exists():
+        file_stream = _FILE.open("rb")
+        return StreamingResponse(file_stream, media_type='audio/wav')
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='File not found!')
