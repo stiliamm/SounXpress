@@ -1,4 +1,3 @@
-// Conversation component
 import { useState, useEffect } from "react";
 import getConversation from "../services/getConversation";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,7 @@ const Conversation = ({ authToken, receiverUsername, refreshConvoData }) => {
     };
 
     getConvo();
-  }, [authToken, receiverUsername, refreshConvoData]);
+  }, [authToken, receiverUsername, refreshConvoData, navigate]);
 
   return (
     <div className="text-box">
