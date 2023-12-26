@@ -357,11 +357,12 @@ body {
   color: var(--clr);
 }
 
-/* HOMEPAGE AUDIO CONTENT STYLES */
+/* LIBRARY AUDIO CONTENT STYLES */
 
 .gallery {
   position: relative;
-  padding: 20px 100px;
+  width: 600px;
+  height: 400px;
   background-color: transparent;
   backdrop-filter: blur(20px);
   display: flex;
@@ -376,21 +377,63 @@ body {
   user-select: none;
 }
 
+.gallery h2 {
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  border-radius: 5px;
+}
+
 .gallery .audio-container {
-  display: "flex";
-  flex-wrap: wrap;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  width: 100%;
+  height: 80%;
+  bottom: 0px;
+  padding: 20px;
 }
 
 .audio-container .file {
-  display: "flex";
-  background: "white";
-  border: "2px solid #ccc";
-  padding: "15px";
-  margin: "15px";
-  width: "100%";
-  border-radius: "10px";
-  box-shadow: "0 4px 8px rgba(0, 0, 0, 0.1)";
-  transition: "transform 0.3s ease-in-out";
+  display: flex;
+  align-self: flex-start;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  background: #ccc;
+  border: 2px solid white;
+  border-radius: 10px;
+  color: black;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.file .audio-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file .play-audio-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-size: 25px;
+  background: transparent;
+  transition: 0.5s;
+}
+
+.file .play-audio-btn:hover {
+  color: white;
+  cursor: pointer;
 }
 
 /* PROFILE PAGE STYLES */
@@ -560,9 +603,8 @@ body {
 }
 
 .text-box {
-  position: absolute;
   width: 450px;
-  max-height: 320px;
+  height: 320px;
   top: 15%;
   background: transparent;
   border: 2px solid #fff;
@@ -570,17 +612,15 @@ body {
   backdrop-filter: blur(40px);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  align-items: right;
-  overflow: hidden;
-  overflow-y: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: auto;
   flex-direction: column-reverse;
-  padding-bottom: 40px;
-  padding-right: 10px;
+  padding: 10px;
+  margin-bottom: 30px;
 }
 
 .text-box p {
-  position: relative;
   text-align: right;
   margin-right: 15px;
   margin-bottom: 3px;
@@ -675,6 +715,36 @@ body {
   padding: 40px;
   font-size: large;
   font-weight: 500;
+}
+
+.contacts-container .new-convo-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 130px;
+  height: 50px;
+}
+
+.new-convo-container .new-convo {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  transition: 0.5s;
+  backdrop-filter: blur(50px);
+}
+
+.new-convo:hover {
+  cursor: pointer;
+  background: #fff;
+  color: #162938;
 }
 
 /* RECORDER STYLES */
