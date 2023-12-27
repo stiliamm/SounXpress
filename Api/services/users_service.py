@@ -86,7 +86,7 @@ def get_audio_files():
 
 
 def play_from_dir(username: str, file_name: str):
-    _FILE = Path(f"./static/recordings/{username}@{file_name}.wav")
+    _FILE = Path(f"./static/recordings/{username}@{file_name}")
 
     if _FILE.exists():
         file_stream = _FILE.open("rb")

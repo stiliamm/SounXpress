@@ -20,6 +20,7 @@ export const GetPlayback = async (username, file_name, authToken) => {
     }
 
     const data = await response.blob();
+    console.log("audio data", data);
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
