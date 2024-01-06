@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Header, HTTPException, status, Body
 from utils.auth import authenticate
-from services.messages_service import send_message, get_contact, conversation, contacts
+from services.messages_service import send_message, get_contact, conversation, contacts, all_users
 
 messages_router = APIRouter(prefix='/messages')
 
@@ -31,3 +31,9 @@ def get_conversation(contact_username: str, x_token: str = Header()):
 def get_contacts(x_token: str = Header()):
     user = authenticate(x_token)
     return contacts(user)
+
+
+@messages_router.get('/users')
+def get_all_users(x_token: str = Header()):
+    authenticate(x_token)
+    return all_users()

@@ -53,9 +53,6 @@ const Contacts = () => {
             </Link>
           </div>
         ))}
-        <div className="new-convo-container">
-          <button className="new-convo">New Conversation</button>
-        </div>
       </div>
     </App>
   );

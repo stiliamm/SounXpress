@@ -47,3 +47,11 @@ def contacts(user: User):
         (user.id, user.id, user.id)
     )
     return (Contact.from_query_result(*usrnm) for usrnm in data)
+
+
+def all_users():
+    data = read_query(
+        '''SELECT username FROM users
+           LIMIT 10'''
+    )
+    return (Contact.from_query_result(*user) for user in data)
