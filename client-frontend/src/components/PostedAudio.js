@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GetAudioData } from "../services/getAudioFiles";
 import { GetPlayback } from "../services/getPlayback";
@@ -54,7 +54,12 @@ const PostedAudio = () => {
             <div className="file" key={file.id}>
               <div className="audio-info">
                 <p className="filename">{file.file_name}</p>
-                <p className="user">by: {file.username}</p>
+                <p className="user">
+                  by:{" "}
+                  <Link to={`/messages/conversation/${file.username}`}>
+                    {file.username}
+                  </Link>
+                </p>
                 <button
                   onClick={() =>
                     handleAudioPlayback(file.username, file.file_name)

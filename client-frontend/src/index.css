@@ -621,6 +621,11 @@ body {
   margin-bottom: 30px;
 }
 
+.text-box .sent-msg,
+.text-box .received-msg {
+  height: auto;
+}
+
 .text-box p {
   text-align: right;
   margin-right: 15px;
@@ -656,7 +661,6 @@ body {
 }
 
 .received-msg {
-  height: 30px;
   align-self: flex-start;
   background-color: #ccc;
   margin-bottom: 10px;
@@ -671,7 +675,6 @@ body {
 }
 
 .sent-msg {
-  height: 30px;
   align-self: flex-end;
   background-color: #ccc;
   margin-bottom: 10px;
@@ -695,8 +698,7 @@ body {
   backdrop-filter: blur(20px);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  align-items: left;
+  flex-direction: column;
   overflow: hidden;
   padding: 30px;
 }
@@ -704,7 +706,6 @@ body {
 .contacts-container .contact {
   height: 60px;
   width: 100%;
-  align-self: flex-start;
   background-color: #ccc;
   margin-bottom: 10px;
   border: 2px solid #fff;
