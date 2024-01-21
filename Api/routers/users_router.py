@@ -90,3 +90,14 @@ def play_audio_from_dir(username: str = Query(default=""),
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=e.__str__())
+
+
+@users_router.get('/recordings/download', tags=["Users"])
+def download_recording(file_name: str = Query(default=""), x_token: str = Header()):
+    authenticate(x_token)
+    try:
+        return users_service.download(file_name)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e.__str__())

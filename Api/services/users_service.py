@@ -2,7 +2,7 @@ from common.database.db_connect import read_query
 from common.models.user import User
 from common.models.audio_file import AudioFile
 from fastapi import UploadFile, HTTPException, status
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
 from PIL import Image
 from pathlib import Path
 from common.recorder import Recorder
@@ -91,6 +91,17 @@ def play_from_dir(username: str, file_name: str):
     if _FILE.exists():
         file_stream = _FILE.open("rb")
         return StreamingResponse(file_stream, media_type='audio/wav')
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='File not found!')
+
+
+def download(username: str, file_name: str):
+    _FILE = Path(f"./static/recordings/{username}@{file_name}")
+
+    if _FILE.exists():
+        return FileResponse(_FILE, media_type='audio/wav')
     else:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
